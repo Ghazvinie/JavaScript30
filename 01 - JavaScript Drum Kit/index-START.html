@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>JS Drum Kit</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 
@@ -59,43 +61,48 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<script>
-  function keyDown (event) {
-    const audioElement = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+  <script>
+    function keyDown(event) {
+      const audioElement = document.querySelector(`audio[data-key="${event.keyCode}"]`);
 
-    if (!audioElement) {
-      return;
+      if (!audioElement) {
+        return;
+      }
+
+      playSound(audioElement);
+      highlightKey(audioElement)
     }
 
-    playSound(audioElement);
-    highlightKey(audioElement)
-  }
-
-  function playSound (sound) {
-   sound.currentTime = 0;
-   sound.play()
-  }
-  function highlightKey (element) {
-    const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
-    key.classList.add('playing');
-    transitionEnd();
-  }
-
-  function transitionEnd (){
-    const keys = document.querySelectorAll('.key');
-    function removeTransition (event) {
-      if (event.propertyName !== 'transform') {return;}
-      this.classList.remove('playing')
-
+    function playSound(sound) {
+      sound.currentTime = 0;
+      sound.play()
     }
-    keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+    
+    function highlightKey(element) {
+      const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+      key.classList.add('playing');
+      transitionEnd();
+    }
 
-  }
+    function transitionEnd() {
+      const keys = document.querySelectorAll('.key');
+      
+      function removeTransition(event) {
+        
+        if (event.propertyName !== 'transform') { 
+          return; 
+        }
+        this.classList.remove('playing')
+      }
+      
+      keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+    }
 
-  window.addEventListener('keydown', keyDown)
+    window.addEventListener('keydown', keyDown)
 
-</script>
+  </script>
 
 
 </body>
+
 </html>
