@@ -77,7 +77,7 @@
       sound.currentTime = 0;
       sound.play()
     }
-    
+
     function highlightKey(element) {
       const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
       key.classList.add('playing');
@@ -86,15 +86,15 @@
 
     function transitionEnd() {
       const keys = document.querySelectorAll('.key');
-      
+
       function removeTransition(event) {
-        
-        if (event.propertyName !== 'transform') { 
-          return; 
+
+        if (event.propertyName !== 'transform') {
+          return;
         }
         this.classList.remove('playing')
       }
-      
+
       keys.forEach(key => key.addEventListener('transitionend', removeTransition))
     }
 
