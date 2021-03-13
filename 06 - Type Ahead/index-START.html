@@ -17,6 +17,42 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+let cities = [];
+
+fetch(endpoint)
+  .then(data => data.json())
+  .then(data => cities.push(...data));
+
+function matchCity (userInput, citiesArray) {
+  return citiesArray.filter(element => {
+    const regex = new RegExp(userInput,'gi');
+     return element.city.match(regex) || element.state.match(regex);
+  });
+}
+
+function commaNumber(input) {
+  return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+}
+
+function findMatches () {
+  const matches = matchCity(this.value, cities);
+  const textBoxes = document.querySelector('.suggestions');
+  const html = matches.map(element => {
+    const regex = new RegExp(this.value, 'gi');
+    const highlightCity = element.city.replace(regex, `<span class="hl">${this.value}</span>`);
+    const highlightState = element.state.replace(regex, `<span class="hl">${this.value}</span>`);
+
+    return `<li> 
+              <span class="name">${highlightCity}, ${highlightState}</span>
+              <span class="population">${commaNumber(element.population)}</span>
+            </li>`;
+  }).join('');
+  textBoxes.innerHTML = html;
+}
+
+const input = document.querySelector('input');
+input.addEventListener('keyup',findMatches);
+
 </script>
 </body>
 </html>
