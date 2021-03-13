@@ -84,8 +84,7 @@
     const dataReduced = data.reduce((acc, curr) => {
       acc[curr] = data.filter(element => element === curr).length;
       return acc;
-    } 
-    ,{});
+    },{});
     console.log(dataReduced);
 
   </script>
