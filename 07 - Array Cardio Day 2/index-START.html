@@ -43,6 +43,7 @@
     // Find the comment with this ID
     const findIndex = comments.findIndex(element => element.id === 823423);
     console.log(findIndex);
+    
     // delete the comment with the ID of 823423
     const editedComments = [...comments.slice(0,findIndex),...comments.slice(findIndex + 1)];
     console.log(editedComments);
