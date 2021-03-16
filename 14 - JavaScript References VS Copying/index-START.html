@@ -8,13 +8,32 @@
 
   <script>
     // start with strings, numbers and booleans
+    let num1 = 1;
+    let num2 = num1;
+    console.log(num1, num2);
+
+    num1 = 2;
+    console.log(num1, num2);
+
+    let str1 = 'dan';
+    let str2 = str1;
+    console.log(str1, str2);
+
+    str1 = 'han';
+    console.log(str1, str2);
 
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
 
     // and we want to make a copy of it.
+    let team = players;
+    console.log(players, team);
 
     // You might think we can just do something like this:
+    let newTeam = Array.from(players);
+    let newerTeam = [...players];
+    team[0] = 'dan';
+    console.log(players,team)
 
     // however what happens when we update that array?
 
@@ -25,6 +44,8 @@
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
     // So, how do we fix this? We take a copy instead!
+    
+    console.log(newTeam, newerTeam);
 
     // one way
 
@@ -39,8 +60,22 @@
     // with Objects
     const person = {
       name: 'Wes Bos',
-      age: 80
+      age: 80,
+      bitMore : {
+          another : 'thing',
+          lastly : 'this'
+      }
     };
+
+    let person2 = person;
+    let person3 = Object.assign({},person);
+    let person4 = JSON.parse(JSON.stringify(person));
+    console.log(person, person2);
+    person.name = 'dan';
+    person3.dob = '1808';
+
+    person3.bitMore.another = 'bab';
+    console.log(person,person2, person3, person4);
 
     // and think we make a copy:
 
