@@ -182,6 +182,18 @@
     </li>
   </ul>
 <script>
+ 
+ const timesNodeList = document.querySelectorAll('li');
+ const timesArray = Array.from(timesNodeList);
+
+ const totalTime = timesArray.reduce((acc, curr) => {
+   let totalMins = parseInt(curr.dataset.time.match(/\d{1,2}/));
+   let seconds = 0 
+   seconds += parseInt(curr.dataset.time.match(/\d{2}(?!:)/));
+   console.log(minutes,seconds)
+  return acc;
+ },0);
+
 </script>
 </body>
 </html>
