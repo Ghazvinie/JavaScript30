@@ -7,7 +7,7 @@
 <body>
 
   <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
+    <h1 contenteditable >🔥WOAH!</h1>
   </div>
 
   <style>
@@ -32,9 +32,39 @@
     text-shadow: 10px 10px 0 rgba(0,0,0,1);
     font-size: 100px;
   }
-  </style>
 
+
+  </style>
 <script>
+
+  const hero = document.querySelector('.hero');
+  const text = hero.querySelector('h1');
+  const walk = 1800;
+
+
+  function woahFunc () {
+    const width = hero.offsetWidth;
+    const height = hero.offsetHeight;
+
+    let mouseX = event.offsetX;
+    let mouseY = event.offsetY;
+
+    if (this !== event.target){
+      mouseX += event.target.offsetLeft;
+      mouseY += event.target.offsetTop;
+    };
+
+    const xWalk = Math.round((mouseX / width * walk) - (walk / 2));
+    const yWalk = Math.round((mouseY / height * walk) - (walk / 2));
+
+    text.style.textShadow = `
+    ${xWalk}px ${yWalk}px rgba(255,0,0,1), 
+    ${xWalk * -1}px ${yWalk}px rgba(0,255,0,1), 
+    ${yWalk}px ${xWalk * -1}px rgba(0,0,255,1)`;
+  }
+
+  hero.addEventListener('mousemove', woahFunc);
+
 </script>
 </body>
 </html>
