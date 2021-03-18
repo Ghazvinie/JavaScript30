@@ -183,16 +183,16 @@
   </ul>
 <script>
  
- const timesNodeList = document.querySelectorAll('li');
- const timesArray = Array.from(timesNodeList);
+ const times = Array.from(document.querySelectorAll('li'));
 
- const totalTime = timesArray.reduce((acc, curr) => {
-   let totalMins = parseInt(curr.dataset.time.match(/\d{1,2}/));
-   let seconds = 0 
-   seconds += parseInt(curr.dataset.time.match(/\d{2}(?!:)/));
-   console.log(minutes,seconds)
-  return acc;
+ let seconds = 0;
+ const totalTime = times.reduce((acc, curr) => {
+   seconds += (parseInt(curr.dataset.time.match(/\d{1,2}/)) * 60) + (parseInt(curr.dataset.time.match(/\d{2}(?!:)/)))
+   acc = seconds;
+
+  return  `${Math.floor(acc / 3600)}:${Math.floor(acc / 60 % 60)}:${acc % 60}`;
  },0);
+
 
 </script>
 </body>
