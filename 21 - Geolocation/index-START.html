@@ -67,7 +67,8 @@
       console.log(data);
       speed.textContent = data.coords.speed;
       arrow.style.transform = `rotate(${data.coords.heading}deg)`;
-    }, (error) => {
+    }, 
+    (error) => {
       console.error(error);
       alert('You need to allow location permissions!');
     });
