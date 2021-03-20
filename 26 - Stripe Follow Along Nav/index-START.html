@@ -247,6 +247,7 @@
         top: dropdownCoords.top - navCoords.top,
         left: dropdownCoords.left - navCoords.left
     };
+    
     background.style.height = `${coords.height}px`;
     background.style.width = `${coords.width}px`;
     background.style.transform = `translate(${coords.left}px, ${coords.top}px)`
@@ -255,11 +256,12 @@
   function handleLeave () {
     this.classList.remove('trigger-enter');
     setTimeout(() => this.classList.remove('trigger-enter-active'),150);
-    background.classList.remove('.open');
+    background.classList.remove('open');
   }
 
   triggers.forEach(element => element.addEventListener('mouseenter', handleEnter));
-  triggers.forEach(element => element.addEventListener('mouseleave', handleLeave))
+  triggers.forEach(element => element.addEventListener('mouseleave', handleLeave));
+
 </script>
 
 </body>
