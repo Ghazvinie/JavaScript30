@@ -20,21 +20,68 @@
       <input name="rate" type="range" min="0" max="3" value="1" step="0.1">
 
       <label for="pitch">Pitch:</label>
-
       <input name="pitch" type="range" min="0" max="2" step="0.1">
+
+      <label for="volume">Volume:</label>
+      <input name="volume" type="range" min="0" max="1" step="0.05">
+<!-- 
+      <label for="mute">Mute</label>
+      <input name="mute" type="checkbox"> -->
+
       <textarea name="text">Hello! I love JavaScript 👍</textarea>
       <button id="stop">Stop!</button>
       <button id="speak">Speak</button>
 
+
     </div>
 
 <script>
+
   const msg = new SpeechSynthesisUtterance();
-  let voices = [];
+  let voices = speechSynthesis.getVoices();
   const voicesDropdown = document.querySelector('[name="voice"]');
   const options = document.querySelectorAll('[type="range"], [name="text"]');
   const speakButton = document.querySelector('#speak');
   const stopButton = document.querySelector('#stop');
+  // const mute = document.querySelector('[type="checkbox"]');
+  
+  msg.text = document.querySelector('[name="text"]').value;
+
+  // function populateVoices () {
+    voicesDropdown.innerHTML = voices
+    .filter(element => element.lang.match(/^en/))
+    .map(element => `<option value="${element.name}">${element.name} (${element.lang})</option>`)
+    .join('');
+  // }
+
+  function setVoice () {
+    msg.voice = voices.find(element => element.name === this.value);
+    toggle();
+  }
+
+  function toggle (startOver = true) {
+    speechSynthesis.cancel();
+    if (startOver){
+      speechSynthesis.speak(msg);
+    }
+  }
+
+  function setOption () {
+    msg[this.name] = this.value;
+    toggle();
+  }
+
+  // function toggleMute () {
+  //   msg.volume = 0;
+  // }
+
+  // speechSynthesis.addEventListener('voiceschanged', populateVoices);
+  voicesDropdown.addEventListener('change', setVoice)
+  speakButton.addEventListener('click', toggle);
+  stopButton.addEventListener('click', () => toggle(false));
+  options.forEach(element => element.addEventListener('change', setOption))
+  // mute.addEventListener('change', toggleMute);
+
 </script>
 
 </body>

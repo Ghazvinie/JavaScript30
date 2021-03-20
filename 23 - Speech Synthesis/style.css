@@ -68,8 +68,8 @@ textarea {
   height: 20rem;
 }
 
-input[type="select"] {
-
+input[type="checkbox"] {
+  width: 4%;
 }
 
 .voiceinator button {
