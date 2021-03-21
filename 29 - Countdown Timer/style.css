@@ -68,8 +68,8 @@ body {
   outline: 0;
 }
 
-.pause__button, .resume__button {
-  width: 40%;
+.pause__button, .resume__button, .reset__button {
+  width: auto;
   flex-direction: row;
 }
 .display {
