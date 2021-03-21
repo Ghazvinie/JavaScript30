@@ -44,6 +44,7 @@
     
     const y = event.pageY - this.offsetTop;
     const percent = y / this.offsetHeight;
+    
     if (percent > 1) return;
     
     const min = 0.4;
@@ -51,9 +52,13 @@
     const height = `${Math.round(percent * 100)}%`;
     const playbackRate = percent * (max - min) + min; 
 
-    bar.style.height = height;
-    bar.textContent = `${playbackRate.toFixed(2)}x`;
-    video.playbackRate = playbackRate; 
+    speedBarStyleFunc(height, playbackRate);    
+}
+
+function speedBarStyleFunc (barHeight, playRate) {
+    bar.style.height = barHeight;
+    bar.textContent = `${playRate.toFixed(2)}x`;
+    video.playbackRate = playRate; 
 }
 
 </script>
