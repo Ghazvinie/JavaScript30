@@ -3,9 +3,11 @@ const timerDisplay = document.querySelector('.display__time-left');
 const endDisplay = document.querySelector('.display__end-time');
 const timerButtons = document.querySelectorAll('.timer__button');
 const timerInput = document.querySelector('[name="customForm"]');
+const pauseButton = document.querySelector('.pause__button');
 
 timerButtons.forEach(element => element.addEventListener('click', buttonFunc));
 timerInput.addEventListener('submit', timerInputFunc);
+pauseButton.addEventListener('click', pauseTimerFunc);
 
 function timer (seconds) {
     clearInterval(countDown);
@@ -14,6 +16,7 @@ function timer (seconds) {
     
     displayTimeLeft(seconds);
     displayEndTime(then);
+
     
     countDown = setInterval(() => {
         const secondsLeft = Math.round((then - Date.now()) / 1000);
@@ -23,6 +26,7 @@ function timer (seconds) {
             return;
         }
         displayTimeLeft(secondsLeft);
+
     },1000);
 }
 
@@ -41,7 +45,7 @@ function displayEndTime (timeStamp) {
 }
 
 function buttonFunc (){
-    timer(this.dataset.time);
+    timer(parseInt(this.dataset.time));
 }
 
 function timerInputFunc (event) {
