@@ -6,19 +6,26 @@ const timerInput = document.querySelector('[name="customForm"]');
 const pauseButton = document.querySelector('.pause__button');
 const resumeButton = document.querySelector('.resume__button');
 const resetButton = document.querySelector('.reset__button');
+const stopWatchButton = document.querySelector('.stopW__Start__button');
 
 timerButtons.forEach(element => element.addEventListener('click', buttonFunc));
 timerInput.addEventListener('submit', timerInputFunc);
 pauseButton.addEventListener('click', pauseTimerFunc);
 resumeButton.addEventListener('click', resumeTimerFunc);
 resetButton.addEventListener('click', resetTimerFunc);
+stopWatchButton.addEventListener('click', stopWatch);
 
 let timeLeftObject = {};
+let stopWatchTimeLeft = {};
+let timerMode;
+let timerActive = false;
 
 function timer (seconds) {
     if (isNaN(seconds))return;
     if(endDisplay.textContent === 'Timer Reset') return;
     clearInterval(countDown);
+    timerMode = 'timer';
+    timerActive = true;
 
     const now = Date.now();
     const then = now + seconds * 1000;
@@ -26,7 +33,6 @@ function timer (seconds) {
     displayTimeLeft(seconds);
     displayEndTime(then);
 
-    
     countDown = setInterval(() => {
         const secondsLeft = Math.round((then - Date.now()) / 1000);
 
@@ -34,6 +40,7 @@ function timer (seconds) {
             clearInterval(countDown);
             return;
         }
+
         displayTimeLeft(secondsLeft);
 
     },1000);
@@ -79,12 +86,21 @@ function pauseTimerFunc (event) {
     event.preventDefault();
     clearInterval(countDown);
     endDisplay.textContent = 'TIMER PAUSED';
+    timerActive = false;
 }
 
 function resumeTimerFunc (event) {
     event.preventDefault();
-    const secondsLeft = (timeLeftObject.hrs * 3600) + (timeLeftObject.mins * 60) + timeLeftObject.secs;
-    timer(secondsLeft);
+    if(timerActive) return;
+    if(timerMode === 'timer'){
+        const secondsLeft = (timeLeftObject.hrs * 3600) + (timeLeftObject.mins * 60) + timeLeftObject.secs;
+        timer(secondsLeft);
+    }
+
+    if (timerMode === 'stopwatch'){
+        timerMode = 'stopwatchResume';
+        stopWatch();
+    }
 }
 
 function resetTimerFunc (event) {
@@ -95,28 +111,45 @@ function resetTimerFunc (event) {
     setTimeout(() => endDisplay.textContent = '00:00', 2000);
 }
 
-function countUp () {
-    // if (isNaN(seconds))return;
+function stopWatch () {
     if(endDisplay.textContent === 'Timer Reset') return;
     clearInterval(countDown);
-
-
+    timerActive = true;
     endDisplay.textContent = `Stop Watch Mode`;
-    let time = 0;
-    let seconds = 0;
-    let hours = 0;
+    
+    let hundredethsOfSecs = 0;
+    let seconds = -1;
     let minutes = 0;
+    let hours = 0;
+
+    if (timerMode === 'stopwatchResume'){
+        hundredethsOfSecs = stopWatchTimeLeft.hundredethsOfSecs;
+        seconds = stopWatchTimeLeft.seconds;
+        minutes = stopWatchTimeLeft.minutes;
+        hours = stopWatchTimeLeft.hours;
+    }
+    timerMode = 'stopwatch';
 
     countDown = setInterval(() => {
-        if (time > 3600000) return;
-        time ++;
-        seconds ++;
-        minutes = Math.floor(time / 60 % 60);
-        hours = Math.floor(seconds / 3600);
-        if (seconds > 60){
-            seconds = 0;
+        if (hours > 10) return;
+        
+        if (hundredethsOfSecs % 10 === 0){
+            seconds++;
         }
-        timerDisplay.textContent = `${hours < 1 ? '0' : 0}${hours}:${minutes < 60 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds % 60}`
+        hundredethsOfSecs ++;
+        stopWatchTimeLeft = {hundredethsOfSecs, seconds, minutes, hours};
 
-    },1000);
+        if (hundredethsOfSecs >= 10){
+            hundredethsOfSecs = 0;
+        }
+        if (seconds >= 60){
+            seconds = 0;
+            minutes ++;
+        }
+        if (minutes >= 60){
+            minutes = 0;
+            hours ++;
+        }
+        timerDisplay.textContent = `${hours < 1 ? '0' : 0}${hours}:${minutes < 60 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${Math.floor(seconds)}.${hundredethsOfSecs}`;
+    },100);
 }
